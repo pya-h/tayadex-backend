@@ -151,6 +151,23 @@ The application includes several background services:
 - **Event Indexer**: Runs every 10 seconds to process blockchain events
 - **Cache Cleanup**: Runs every 5 minutes to clean expired cache entries
 
+### Optional GraphQL Indexer
+By default, the server uses the direct blockchain indexer (`INDEXER_PROVIDER=direct`).
+If your chain has a reliable subgraph and you want to index from GraphQL instead:
+
+1. Set these env vars:
+```env
+INDEXER_PROVIDER=graphql
+INDEXER_INTERVAL=10
+GRAPHQL_ENDPOINT="https://your-subgraph-endpoint.com"
+# optional tuning (defaults to 1000)
+GRAPHQL_INDEXER_BATCH_SIZE=1000
+```
+2. Keep `CHAIN_ID` aligned with a row in the `Chain` table.
+3. Start the server normally (`bun run dev` / `bun run start`).
+
+The GraphQL indexer writes into the same `ProcessedTransaction` and point flow, so existing endpoints continue to work without extra API-layer changes.
+
 ## 🔐 Authentication Flow
 
 1. **Get Nonce**: User requests authentication nonce for their wallet address

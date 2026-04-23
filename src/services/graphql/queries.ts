@@ -36,6 +36,16 @@ export const GET_SHMON_SWAPS = gql`
   }
 `;
 
+export const GET_SUBGRAPH_META = gql`
+  query SubgraphMeta {
+    _meta {
+      block {
+        number
+      }
+    }
+  }
+`;
+
 export const GET_USER_SWAPS = gql`
   query UserSwaps($address: Bytes) {
     swaps(where: { from: $address }) {
@@ -94,9 +104,9 @@ export const GET_USER_LIQUIDITY = gql`
 `;
 
 export const GET_NEW_SWAPS = gql`
-  query NewSwaps($lastBlock: BigInt!) {
+  query NewSwaps($lastBlock: BigInt!, $first: Int = 1000) {
     swaps(
-      first: 1000
+      first: $first
       orderBy: blockNumber
       orderDirection: asc
       where: { blockNumber_gt: $lastBlock }
@@ -129,12 +139,12 @@ export const GET_NEW_SWAPS = gql`
 `;
 
 export const GET_NEW_LIQUIDITY = gql`
-  query NewLiquidity($lastBlock: BigInt!) {
+  query NewLiquidity($lastBlock: BigInt!, $first: Int = 1000) {
     mints(
-      first: 1000
+      first: $first
       orderBy: blockNumber
       orderDirection: asc
-      where: { blockNumber_gte: $lastBlock }
+      where: { blockNumber_gt: $lastBlock }
     ) {
       id
       sender
@@ -159,10 +169,10 @@ export const GET_NEW_LIQUIDITY = gql`
       }
     }
     burns(
-      first: 1000
+      first: $first
       orderBy: blockNumber
       orderDirection: asc
-      where: { blockNumber_gte: $lastBlock }
+      where: { blockNumber_gt: $lastBlock }
     ) {
       id
       sender
