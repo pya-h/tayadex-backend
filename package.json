@@ -1,12 +1,17 @@
 {
   "name": "tayaswap-backend",
   "version": "1.0.0",
+  "packageManager": "bun@1.3.13",
+  "engines": {
+    "bun": ">=1.3.13"
+  },
   "private": true,
   "scripts": {
-    "dev": "tsx watch src/server.ts",
-    "start": "tsx src/server.ts",
-    "init": "node prisma/seed.db.js",
+    "dev": "bun --watch src/server.ts",
+    "start": "bun src/server.ts",
+    "init": "bun prisma/seed.db.js",
     "build": "tsup src/server.ts --format cjs --out-dir dist --clean --dts",
+    "typecheck": "tsc --noEmit",
     "format": "biome format --max-diagnostics 100 --write ./",
     "lint": "biome lint --write --unsafe --max-diagnostics 100 ./"
   },
@@ -24,7 +29,6 @@
     "mnemonist": "^0.40.3",
     "node-cron": "^4.1.0",
     "prisma": "^6.8.2",
-    "tsx": "^4.19.2",
     "viem": "2.23.10",
     "zod": "3.24.2"
   },

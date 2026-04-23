@@ -1,6 +1,6 @@
 # Tayaswap Backend
 
-A comprehensive backend service for the Tayaswap decentralized exchange platform, built with Node.js, TypeScript, and Hono framework. This service provides Web3 authentication, trading quotes, user management, point systems, and blockchain event indexing.
+A comprehensive backend service for the Tayaswap decentralized exchange platform, built with Bun, TypeScript, and Hono framework. This service provides Web3 authentication, trading quotes, user management, point systems, and blockchain event indexing.
 
 ## 🚀 Features
 
@@ -63,7 +63,7 @@ The project follows a clean architecture pattern with:
 
 ## 🛠️ Prerequisites
 
-- **Node.js** 18+ 
+- **Bun** 1.3+
 - **PostgreSQL** database
 - **Redis** (optional, for caching)
 - **Ethereum RPC** endpoint
@@ -79,8 +79,6 @@ cd tayadex
 
 ### 2. Install dependencies
 ```bash
-npm install
-# or
 bun install
 ```
 
@@ -96,7 +94,7 @@ PORT=4200
 
 # Blockchain
 GRAPHQL_ENDPOINT="https://your-subgraph-endpoint.com"  # not important since monad testnet doesn't stand well with graphql
-RPC_ENDPOINT="https://your-ethereum-rpc.com"
+RPC_URL="https://your-ethereum-rpc.com"
 CHAIN_ID=10143
 # JWT
 JWT_SECRET="your-secret-key"
@@ -107,24 +105,24 @@ JWT_ISSUER='your-issuer'
 ### 4. Database Setup
 ```bash
 # Run database migrations (dev arg is optional)
-npx prisma migrate [dev]
-# Generate typesmigrations
-npx prisma generate
+bunx prisma migrate [dev]
+# Generate types
+bunx prisma generate
 
 # Seed the database (optional)
-npm run init
+bun run init
 ```
 
 ### 5. Start the server
 ```bash
 # Development mode with hot reload
-npm run dev
+bun run dev
 
 # Production mode
-npm run start
+bun run start
 
 # Build for production
-npm run build
+bun run build
 ```
 
 ## 📊 Database Schema
@@ -140,12 +138,13 @@ The application uses PostgreSQL with the following main entities:
 
 ## 🔧 Available Scripts
 
-- `npm run dev` - Start development server with hot reload
-- `npm run start` - Start production server
-- `npm run build` - Build TypeScript to JavaScript
-- `npm run init` - Initialize database with seed data
-- `npm run format` - Format code using Biome
-- `npm run lint` - Lint code using Biome
+- `bun run dev` - Start development server with hot reload
+- `bun run start` - Start production server
+- `bun run build` - Build TypeScript to JavaScript
+- `bun run typecheck` - Run TypeScript type checks
+- `bun run init` - Initialize database with seed data
+- `bun run format` - Format code using Biome
+- `bun run lint` - Lint code using Biome
 
 ### Background Services
 The application includes several background services:

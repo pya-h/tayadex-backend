@@ -1,7 +1,7 @@
 import { PointService, prisma } from "@/services";
 import {
     ReferralCriteriaModes,
-    ReferralRewardType,
+    RewardTypesEnum,
     type ReferralRules,
     type User,
 } from "@prisma/client";
@@ -381,7 +381,7 @@ export class ReferralService {
         );
 
         switch (direct ? rules.directRewardType : rules.indirectRewardType) {
-            case ReferralRewardType.POINT:
+            case RewardTypesEnum.POINT:
                 await this.pointService.giveReferralPoint(
                     links,
                     rules,

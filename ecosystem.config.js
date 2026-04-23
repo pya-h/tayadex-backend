@@ -3,6 +3,7 @@ module.exports = {
       {
         name: "tayadex-backend",
         script: "./dist/server.js",
+        interpreter: "bun",
         cwd: "./",
         instances: 1,
         exec_mode: "fork",

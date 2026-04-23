@@ -3,7 +3,7 @@ import {
     PointSystemRuleType,
     PrismaClient,
     ReferralCriteriaModes,
-    ReferralRewardType,
+    RewardTypesEnum,
     TransactionType,
 } from "@prisma/client";
 
@@ -87,13 +87,13 @@ async function main() {
         await prisma.referralRules.create({
             data: {
                 activisionReward: 100,
-                activisionRewardType: ReferralRewardType.POINT,
+                activisionRewardType: RewardTypesEnum.POINT,
                 criteria: ReferralCriteriaModes.POINTS,
                 devidByLayer: false,
                 directRewardRatio: 0.1,
-                directRewardType: ReferralRewardType.POINT,
+                directRewardType: RewardTypesEnum.POINT,
                 indirectRewardRatio: 0.01,
-                indirectRewardType: ReferralRewardType.POINT,
+                indirectRewardType: RewardTypesEnum.POINT,
             },
         });
         console.info("Referral rules inserted.");
