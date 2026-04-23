@@ -8,14 +8,15 @@ const port = Number.parseInt(process.env.PORT || "3000", 10);
 const indexerProvider = (
     process.env.INDEXER_PROVIDER || "direct"
 ).toLowerCase();
-const eventIndexerService =
-    indexerProvider === "graphql"
-        ? GraphQLEventIndexer.get()
-        : EventIndexer.get();
 const indexerInterval = +(process.env.INDEXER_INTERVAL ?? 0);
 if (indexerInterval > 0) {
+    const eventIndexerService =
+        indexerProvider === "graphql"
+            ? GraphQLEventIndexer.get()
+            : EventIndexer.get();
+    const secondsInterval = Math.max(1, Math.min(59, indexerInterval));
     // Schedule the cron job to run based on interval
-    cron.schedule("*/10 * * * * *", () => {
+    cron.schedule(`*/${secondsInterval} * * * * *`, () => {
         eventIndexerService.listen().catch((error) => {
             console.error("Event indexer failed:", error);
         });

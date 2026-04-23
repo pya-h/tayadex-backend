@@ -29,6 +29,8 @@ type GraphqlTransactionPayload = {
     metadata?: InputJsonValue;
 };
 
+type LiquidityActionType = "MINT" | "BURN";
+
 export class GraphQLEventIndexer {
     private static singleInstance: GraphQLEventIndexer;
     private readonly pointService = PointService.get();
@@ -264,7 +266,7 @@ export class GraphQLEventIndexer {
     }
 
     private async processLiquidityEvent(
-        action: TransactionType.MINT | TransactionType.BURN,
+        action: LiquidityActionType,
         event: INewMintOrBurnOperationData
     ) {
         const user = await this.findUserByAddress(event.sender);
@@ -358,17 +360,20 @@ export class GraphQLEventIndexer {
                 first: this.batchSize,
             });
 
-            const events = [
+            const events: Array<{
+                type: LiquidityActionType;
+                data: INewMintOrBurnOperationData;
+            }> = [
                 ...mints
                     .filter((mint) => mint.blockNumber <= untilBlock)
                     .map((mint) => ({
-                        type: TransactionType.MINT as const,
+                        type: TransactionType.MINT,
                         data: mint,
                     })),
                 ...burns
                     .filter((burn) => burn.blockNumber <= untilBlock)
                     .map((burn) => ({
-                        type: TransactionType.BURN as const,
+                        type: TransactionType.BURN,
                         data: burn,
                     })),
             ].sort((a, b) => {
